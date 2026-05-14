@@ -1,0 +1,228 @@
+Docker Installation
+
+Step 1:
+sudo apt update
+
+--------------------------------------------------
+
+Step 2:
+sudo apt install apt-transport-https ca-certificates curl software-properties-common -y
+
+--------------------------------------------------
+
+Step 3:
+sudo apt install docker.io -y
+
+--------------------------------------------------
+
+Step 4:
+sudo systemctl start docker
+sudo systemctl enable docker
+
+--------------------------------------------------
+
+Step 5:
+docker --version
+
+--------------------------------------------------
+
+Step 6:
+sudo docker run hello-world
+
+--------------------------------------------------
+
+Step 7:
+sudo systemctl status docker
+
+--------------------------------------------------
+
+Step 8:
+mkdir mypythonfile
+
+--------------------------------------------------
+
+Step 9:
+cd mypythonfile
+
+--------------------------------------------------
+
+Step 10:
+sudo apt install nano -y
+
+--------------------------------------------------
+
+Step 11:
+nano app.py
+
+
+Content of app.py
+
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return "Hello Docker! Running this Python app successfully"
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
+
+
+Save:
+CTRL + O
+ENTER
+CTRL + X
+
+--------------------------------------------------
+
+Step 12:
+nano requirements.txt
+
+
+Content of requirements.txt
+
+Flask
+
+
+Save:
+CTRL + O
+ENTER
+CTRL + X
+
+--------------------------------------------------
+
+Step 13:
+nano Dockerfile
+
+
+Content of Dockerfile
+
+FROM python:3.11-slim
+
+WORKDIR /app
+
+COPY requirements.txt .
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY app.py .
+
+EXPOSE 5000
+
+CMD ["python", "app.py"]
+
+
+Save:
+CTRL + O
+ENTER
+CTRL + X
+
+--------------------------------------------------
+
+Step 14:
+docker build -t myapp-image .
+
+--------------------------------------------------
+
+Step 15:
+docker images
+
+--------------------------------------------------
+
+Step 16:
+docker run -d -p 8000:5000 --name myapp-container myapp-image
+
+--------------------------------------------------
+
+Step 17:
+docker ps
+
+--------------------------------------------------
+
+Open Website:
+http://localhost:8000
+
+--------------------------------------------------
+
+If you want to rebuild:
+
+docker stop myapp-container
+
+docker rm myapp-container
+
+Repeat:
+Step 14
+Step 15
+Step 16
+Step 17
+
+--------------------------------------------------
+
+Docker Hub Login
+
+docker login
+
+--------------------------------------------------
+
+Tag Docker Image
+
+docker tag myapp-image chaithanyasureshkumar/myapp-image:latest
+
+--------------------------------------------------
+
+Push Docker Image
+
+docker push chaithanyasureshkumar/myapp-image:latest
+
+--------------------------------------------------
+
+Install Java for Jenkins
+
+sudo apt install openjdk-17-jdk -y
+
+java -version
+
+--------------------------------------------------
+
+Download Jenkins
+
+wget https://get.jenkins.io/war-stable/latest/jenkins.war
+
+--------------------------------------------------
+
+Run Jenkins
+
+java -jar jenkins.war --httpPort=8080
+
+--------------------------------------------------
+
+Open Jenkins
+
+http://localhost:8080
+
+--------------------------------------------------
+
+Get Jenkins Password
+
+cat ~/.jenkins/secrets/initialAdminPassword
+
+--------------------------------------------------
+
+Useful Docker Commands
+
+docker ps
+
+docker ps -a
+
+docker images
+
+docker stop container_name
+
+docker rm container_name
+
+docker rmi image_name
+
+docker pull nginx
+
+docker run -d -p 8081:80 nginx
